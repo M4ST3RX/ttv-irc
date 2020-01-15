@@ -1,5 +1,5 @@
 {
-  "name": "twitchirc",
+  "name": "ttv-irc",
   "version": "1.0.0",
   "description": "Twitch IRC",
   "main": "index.js",
