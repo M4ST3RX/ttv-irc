@@ -1,6 +1,6 @@
 {
   "name": "ttv-irc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Twitch IRC",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,5 @@
     "url": "https://github.com/M4ST3RX/twitchirc/issues"
   },
   "homepage": "https://github.com/M4ST3RX/twitchirc#readme",
-  "dependencies": {
-    "ExtraJS": "github:m4st3rx/ExtraJS"
-  }
+  "dependencies": {}
 }
