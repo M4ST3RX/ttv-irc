@@ -13,7 +13,11 @@ class IRC {
 
 		this.identities.forEach((identity) => {
 			let connection = new IRCConnection(identity.username, identity.password, identity.channels);
-			this.connections.add(connection.getConnection())
+			if(Collection) {
+				this.connections.add(connection.getConnection());
+			} else {
+				this.connections.push(connection.getConnection());
+			}
 		});
 	}
 
