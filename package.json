@@ -1,0 +1,19 @@
+{
+  "name": "twitchirc",
+  "version": "1.0.0",
+  "description": "Twitch IRC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M4ST3RX/twitchirc.git"
+  },
+  "author": "M4ST3RX",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/M4ST3RX/twitchirc/issues"
+  },
+  "homepage": "https://github.com/M4ST3RX/twitchirc#readme"
+}
