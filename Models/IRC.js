@@ -1,9 +1,14 @@
 const IRCConnection = require('./IRCConnection');
-const Collection = require('betterjs').Collection;
+let Collection = null;
+try {
+    Collection = require('ExtraJS').Collection;
+} catch(e) {
+    
+}
 
 class IRC {
 	constructor(options) {
-		this.connections = new Collection();
+		this.connections = (Collection) ? new Collection() : [];
 		this.identities = options.identities;
 
 		this.identities.forEach((identity) => {

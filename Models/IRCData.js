@@ -1,7 +1,12 @@
-const Collection = require('betterjs').Collection;
+let Collection = null;
+try {
+    Collection = require('ExtraJS').Collection;
+} catch(e) {
+    
+}
 
 class IRCData {
-	constructor(data) {
+	constructor(data, type) {
 		data = data.slice(1);
 		let parts = data.split(';');
 
@@ -10,12 +15,16 @@ class IRCData {
 			if(valueParts[1] !== '') {
 				if(valueParts[0] === 'badges' || valueParts[0] === 'badge-info') {
 					let list = valueParts[1].split(',');
-					let array = new Collection();
+					let array = (Collection) ? new Collection() : [];
 					list.forEach((value) => {
 						let listParts = value.split('/');
 						let listObj = {};
 						listObj[listParts[0]] = listParts[1];
-						array.add(listObj);
+						if(Collection) {
+							array.add(listObj);
+						} else {
+							array.push(listObj);
+						}
 					});
 					this[valueParts[0].toCamelCase()] = array;
 				} else {
@@ -36,6 +45,12 @@ class IRCData {
 
 		if(this.systemMsg !== undefined) {
 			this.systemMsg = this.systemMsg.split('\\s').join(' ');
+		}
+
+		if(type === 'PRIVMSG') {
+			this.msgId = 'message';
+		} else if(type === 'WHISPER') {
+			this.msgId = 'whisper';
 		}
 	}
 

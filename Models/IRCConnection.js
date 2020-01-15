@@ -1,6 +1,12 @@
 const IRCListener = require('./IRCListener');
 const IRCData = require('./IRCData');
-const Collection = require('betterjs').Collection;
+let ExtraJS = null;
+try {
+	ExtraJS = require('ExtraJS');
+} catch(e) {
+
+}
+
 
 class IRCConnection extends IRCListener {
 	constructor(username, password, channels) {
@@ -73,19 +79,13 @@ class IRCConnection extends IRCListener {
 					return 'Unknown command';
 			}
 		} else if(messageParts[1].includes('tmi.twitch.tv')) {
-			let data = new IRCData(messageParts[0]);
+			let data = new IRCData(messageParts[0], messageParts[2]);
+			let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
 			data.add('username', messageParts[1].split('!')[0].slice(1));
-			let type = messageParts[2];
-			if(type === 'PRIVMSG') {
-				let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
-				this.callEvent('message', messageParts[3], msg, data);
-			} else if(type === 'USERNOTICE') {
-				console.log(data)
-				let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
+			if(ExtraJS) {
 				this.callEvent(data.msgId, messageParts[3], msg, data);
-			} else if(type === 'WHISPER') {
-				let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
-				this.callEvent('whisper', messageParts[3], msg, data);
+			} else {
+				this.emit(data.msgId, messageParts[3], msg, data);
 			}
 		}
 	}

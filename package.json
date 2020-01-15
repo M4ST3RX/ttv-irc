@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/M4ST3RX/twitchirc/issues"
   },
-  "homepage": "https://github.com/M4ST3RX/twitchirc#readme"
+  "homepage": "https://github.com/M4ST3RX/twitchirc#readme",
+  "dependencies": {
+    "ExtraJS": "github:m4st3rx/ExtraJS"
+  }
 }
