@@ -1,8 +1,8 @@
 const IRCListener = require('./IRCListener');
 const IRCData = require('./IRCData');
-let ExtraJS = null;
+let betterjs = null;
 try {
-	ExtraJS = require('ExtraJS');
+	betterjs = require('betterjs');
 } catch(e) {
 
 }
@@ -82,7 +82,7 @@ class IRCConnection extends IRCListener {
 			let data = new IRCData(messageParts[0], messageParts[2]);
 			let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
 			data.add('username', messageParts[1].split('!')[0].slice(1));
-			if(ExtraJS) {
+			if(betterjs) {
 				this.callEvent(data.msgId, messageParts[3], msg, data);
 			} else {
 				this.emit(data.msgId, messageParts[3], msg, data);

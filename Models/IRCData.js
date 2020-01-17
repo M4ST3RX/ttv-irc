@@ -1,6 +1,6 @@
 let Collection = null;
 try {
-    Collection = require('ExtraJS').Collection;
+    Collection = require('betterjs').Collection;
 } catch(e) {
     
 }

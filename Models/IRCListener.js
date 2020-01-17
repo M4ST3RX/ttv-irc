@@ -1,6 +1,6 @@
 let Listener = require('events');
 try {
-	Listener = require('ExtraJS').Listener;
+	Listener = require('betterjs').Listener;
 } catch(e){}
 
 class IRCListener extends Listener {
