@@ -16,5 +16,8 @@
     "url": "https://github.com/M4ST3RX/twitchirc/issues"
   },
   "homepage": "https://github.com/M4ST3RX/twitchirc#readme",
-  "dependencies": {}
+  "dependencies": {
+    "betterjs": "file:../betterjs",
+    "ws": "^7.2.1"
+  }
 }

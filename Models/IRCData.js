@@ -6,7 +6,7 @@ try {
 }
 
 class IRCData {
-	constructor(data, type) {
+	constructor(data, type, message) {
 		data = data.slice(1);
 		let parts = data.split(';');
 
@@ -51,6 +51,14 @@ class IRCData {
 			this.msgId = 'message';
 		} else if(type === 'WHISPER') {
 			this.msgId = 'whisper';
+		} else if(type === 'CLEARCHAT') {
+			if(this.banDuration !== undefined) {
+				this.msgId = 'timeout';
+			} else if(msg !== null){
+				this.msgId = 'ban';
+			} else {
+				this.msgId = 'clearchat';
+			}
 		}
 	}
 

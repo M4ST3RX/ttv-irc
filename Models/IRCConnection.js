@@ -9,12 +9,13 @@ try {
 
 
 class IRCConnection extends IRCListener {
-	constructor(username, password, channels) {
+	constructor(username, password, channels, lurker) {
 		super();
 		this.socket = require("ws");
 		this.username = username;
 		this.password = password;
 		this.channels = channels;
+		this.lurker = lurker;
 
 		this.webSocket = new this.socket(`ws://irc-ws.chat.twitch.tv:80/`, "irc");
 		
@@ -53,12 +54,10 @@ class IRCConnection extends IRCListener {
 		console.log("WebSocket closed.");
 	}
 
-	getConnection() {
-		return this;
-	}
-
 	parseMessage(message) {
 		let messageParts = message.split(' ');
+
+		console.log(message);
 
 		if(messageParts[0] === '') return null;
 
@@ -77,9 +76,24 @@ class IRCConnection extends IRCListener {
 				case '421':
 					// Unknown command
 					return 'Unknown command';
+				case 'JOIN':
+					if(betterjs) {
+						this.callEvent('join', messageParts[2], messageParts[0].split('@')[0].split('!')[1]);
+					} else {
+						this.emit('join', messageParts[2], messageParts[0].split('@')[0].split('!')[1]);
+					}
+					break;
+				case 'PART':
+					if(betterjs) {
+						this.callEvent('leave', messageParts[2], messageParts[0].split('@')[0].split('!')[1]);
+					} else {
+						this.emit('leave', messageParts[2], messageParts[0].split('@')[0].split('!')[1]);
+					}
+					break;
 			}
 		} else if(messageParts[1].includes('tmi.twitch.tv')) {
-			let data = new IRCData(messageParts[0], messageParts[2]);
+			if(this.lurker) return;
+			let data = new IRCData(messageParts[0], messageParts[2], msg);
 			let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
 			data.add('username', messageParts[1].split('!')[0].slice(1));
 			if(betterjs) {
@@ -94,6 +108,9 @@ class IRCConnection extends IRCListener {
 		if(channel.startsWith('#')) {
 			channel = channel.slice(1);
 		}
+
+		console.log('PRIVMSG #' + channel + " :" + msg);
+
 		this.webSocket.send('PRIVMSG #' + channel + " :" + msg);
 	}
 }
