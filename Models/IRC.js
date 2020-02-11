@@ -31,7 +31,6 @@ class IRC {
 		}
 		return this.getConnections();
 	}
-
 }
 
 module.exports = IRC;

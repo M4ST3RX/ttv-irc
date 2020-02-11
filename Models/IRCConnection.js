@@ -57,7 +57,7 @@ class IRCConnection extends IRCListener {
 	parseMessage(message) {
 		let messageParts = message.split(' ');
 
-		console.log(message);
+		//console.log(message);
 
 		if(messageParts[0] === '') return null;
 
@@ -92,9 +92,8 @@ class IRCConnection extends IRCListener {
 					break;
 			}
 		} else if(messageParts[1].includes('tmi.twitch.tv')) {
-			if(this.lurker) return;
-			let data = new IRCData(messageParts[0], messageParts[2], msg);
 			let msg = messageParts.slice(4,messageParts.length).join(' ').slice(1);
+			let data = new IRCData(messageParts[0], messageParts[2], msg);
 			data.add('username', messageParts[1].split('!')[0].slice(1));
 			if(betterjs) {
 				this.callEvent(data.msgId, messageParts[3], msg, data);
