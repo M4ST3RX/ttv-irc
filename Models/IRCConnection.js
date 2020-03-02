@@ -7,7 +7,6 @@ try {
 
 }
 
-
 class IRCConnection extends IRCListener {
 	constructor(username, password, channels, lurker) {
 		super();

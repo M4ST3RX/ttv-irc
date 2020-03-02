@@ -1,6 +1,6 @@
 {
   "name": "ttv-irc",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Twitch IRC",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/M4ST3RX/twitchirc#readme",
   "dependencies": {
-    "betterjs": "file:../betterjs",
     "ws": "^7.2.1"
   }
 }
