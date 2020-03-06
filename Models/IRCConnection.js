@@ -50,7 +50,7 @@ class IRCConnection extends IRCListener {
 	}
 
 	onClose() {
-		console.log("WebSocket closed.");
+		console.log("WebSocket closed - " + this.username);
 	}
 
 	parseMessage(message) {
@@ -64,14 +64,19 @@ class IRCConnection extends IRCListener {
 			let code = messageParts[1];
 
 			switch(code) {
-				case '372':
+				case '372': {
+					let time = 0;
 					this.channels.forEach((channel) => {
-						if(channel.startsWith('#')) {
-							channel = channel.slice(1);
-						}
-						this.webSocket.send('JOIN #' + channel);
+						setTimeout(() => {
+							if(channel.startsWith('#')) {
+								channel = channel.slice(1);
+							}
+							this.webSocket.send('JOIN #' + channel);
+						}, time);
+						time += 1000;
 					});
 					return 'JOIN';
+				}
 				case '421':
 					// Unknown command
 					return 'Unknown command';
