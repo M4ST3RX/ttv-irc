@@ -65,12 +65,14 @@ class IRCConnection extends IRCListener {
 
 			switch(code) {
 				case '372': {
+					console.log('['+this.username+'] Connected');
 					let time = 0;
 					this.channels.forEach((channel) => {
 						setTimeout(() => {
 							if(channel.startsWith('#')) {
 								channel = channel.slice(1);
 							}
+							console.log('['+this.username+'] Joined to #'+channel);
 							this.webSocket.send('JOIN #' + channel);
 						}, time);
 						time += 1000;

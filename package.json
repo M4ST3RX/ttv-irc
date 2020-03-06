@@ -1,6 +1,6 @@
 {
   "name": "ttv-irc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Twitch IRC",
   "main": "index.js",
   "scripts": {

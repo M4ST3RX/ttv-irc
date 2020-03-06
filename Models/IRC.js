@@ -20,7 +20,7 @@ class IRC {
 				} else {
 					this.connections.push(connection);
 				}
-
+				console.log('['+identity.username+'] Connecting...');
 			}, time + 1000);
 		});
 	}
