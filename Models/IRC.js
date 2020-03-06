@@ -12,7 +12,7 @@ class IRC {
 		this.identities = options.identities;
 
 		this.identities.forEach((identity, index) => {
-			let time = identity.channel.length * 1000 * (index + 1);
+			let time = identity.channels.length * 1000 * (index + 1);
 			setTimeout(() => {
 				let connection = new IRCConnection(identity.username, identity.password, identity.channels, (identity.lurker !== undefined) ? identity.lurker : true);
 				if(Collection) {
