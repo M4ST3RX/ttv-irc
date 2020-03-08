@@ -1,4 +1,5 @@
 const IRCConnection = require('./IRCConnection');
+const IRCListener = require('./IRCListener');
 let Collection = null;
 try {
     Collection = require('betterjs').Collection;
@@ -6,8 +7,9 @@ try {
     
 }
 
-class IRC {
+class IRC extends IRCListener {
 	constructor(options) {
+		super();
 		this.connections = (Collection) ? new Collection() : [];
 		this.identities = options.identities;
 
@@ -21,6 +23,12 @@ class IRC {
 					this.connections.push(connection);
 				}
 				console.log('['+identity.username+'] Connecting...');
+				
+				if(index === this.identities.length - 1) {
+					setTimeout(() => {
+						this.emit('loaded', this.connections)
+					}, identity.channels.length * 1000 + 500);
+				}
 			}, time + 1000);
 		});
 	}
