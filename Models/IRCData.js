@@ -54,7 +54,7 @@ class IRCData {
 		} else if(type === 'CLEARCHAT') {
 			if(this.banDuration !== undefined) {
 				this.msgId = 'timeout';
-			} else if(msg !== null){
+			} else if(message !== null || message !== ''){
 				this.msgId = 'ban';
 			} else {
 				this.msgId = 'clearchat';

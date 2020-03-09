@@ -50,6 +50,7 @@ class IRCConnection extends IRCListener {
 	}
 
 	onClose() {
+		this.emit('closed');
 		console.log("WebSocket closed - " + this.username);
 	}
 
@@ -68,14 +69,10 @@ class IRCConnection extends IRCListener {
 					console.log('['+this.username+'] Connected');
 					let time = 0;
 					this.channels.forEach((channel) => {
-						setTimeout(() => {
-							if(channel.startsWith('#')) {
-								channel = channel.slice(1);
-							}
-							console.log('['+this.username+'] Joined to #'+channel);
-							this.webSocket.send('JOIN #' + channel);
-						}, time);
-						time += 1000;
+						if(channel.startsWith('#')) {
+							channel = channel.slice(1);
+						}
+						this.webSocket.send('JOIN #' + channel);
 					});
 					return 'JOIN';
 				}

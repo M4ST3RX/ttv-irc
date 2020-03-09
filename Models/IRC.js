@@ -12,9 +12,34 @@ class IRC extends IRCListener {
 		super();
 		this.connections = (Collection) ? new Collection() : [];
 		this.identities = options.identities;
+		let retry = (Collection) ? new Collection() : [];
 
 		this.identities.forEach((identity, index) => {
-			let time = identity.channels.length * 1000 * (index + 1);
+			let time = (index === 0) ? 0 : 300 * (index + 1);
+			setTimeout(() => {
+				let connection = new IRCConnection(identity.username, identity.password, identity.channels, (identity.lurker !== undefined) ? identity.lurker : true);
+				connection.on('closed', () => {
+					console.log('['+identity.username+'] Failed to connect.');
+					retry.push(identity);
+				})
+				if(Collection) {
+					this.connections.add(connection);
+				} else {
+					this.connections.push(connection);
+				}
+				
+				if(retry.length === 0) {
+					if(index === this.identities.length - 1) {
+						setTimeout(() => {
+							this.emit('loaded', this.connections)
+						}, time + 500);
+					}
+				}
+			}, time);
+		});
+
+		retry.forEach((identity, index) => {
+			let time = (index === 0) ? 0 : 300 * (index + 1);
 			setTimeout(() => {
 				let connection = new IRCConnection(identity.username, identity.password, identity.channels, (identity.lurker !== undefined) ? identity.lurker : true);
 				if(Collection) {
@@ -22,14 +47,13 @@ class IRC extends IRCListener {
 				} else {
 					this.connections.push(connection);
 				}
-				console.log('['+identity.username+'] Connecting...');
 				
 				if(index === this.identities.length - 1) {
 					setTimeout(() => {
 						this.emit('loaded', this.connections)
-					}, identity.channels.length * 1000 + 500);
+					}, time + 500);
 				}
-			}, time + 1000);
+			}, time);
 		});
 	}
 
